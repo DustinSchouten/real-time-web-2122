@@ -30,3 +30,17 @@ socket.on('username', username => {
     messages.appendChild(Object.assign(element, { textContent: username }))
     messages.scrollTop = messages.scrollHeight
 })
+
+socket.on('disconnected', () => {
+  var element = document.createElement('li');
+  element.classList.add('disc');
+  messages.appendChild(Object.assign(element, { textContent: "A user is disconnected" }))
+  messages.scrollTop = messages.scrollHeight
+})
+
+socket.on('connected', () => {
+  var element = document.createElement('li');
+  element.classList.add('conn');
+  messages.appendChild(Object.assign(element, { textContent: "A new user is connected" }))
+  messages.scrollTop = messages.scrollHeight
+})
