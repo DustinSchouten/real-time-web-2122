@@ -1,25 +1,28 @@
-require("dotenv").config();
-const express = require("express");
-
+const express = require('express')
 const app = express()
 const http = require('http').createServer(app)
 const path = require('path')
 const io = require('socket.io')(http)
-
-app.set('view engine', 'ejs');
+const port = process.env.PORT || 4242
 
 app.use(express.static(path.resolve('public')))
 
-app.get('/', function (req, res) {
-    res.render('index')
+io.on('connection', (socket) => {
+    console.log('a user connected')
+
+    socket.on('message', (message) => {
+        io.emit('message', message)
+    })
+
+    socket.on('username', (username) => {
+        io.emit('username', username)
+    })
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected')
+    })
 })
 
-io.on('connection', (socket) => {
-    console.log('a user connected');
-});
-
-const port = process.env.PORT || 8000;
-
-http.listen(port, function(){
-    console.log("Server listening on port", port);
+http.listen(port, () => {
+    console.log('listening on port ', port)
 })
