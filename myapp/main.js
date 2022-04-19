@@ -10,12 +10,16 @@ app.use(express.static(path.resolve('public')))
 io.on('connection', (socket) => {
     console.log('a user connected')
 
+    socket.on('connect', (element) => {
+        console.log('connected',element)
+    })
+
     socket.on('message', (message) => {
-        io.emit('message', message)
+        socket.broadcast.emit('message', message)
     })
 
     socket.on('username', (username) => {
-        io.emit('username', username)
+        socket.broadcast.emit('username', username)
     })
 
     socket.on('disconnect', () => {
