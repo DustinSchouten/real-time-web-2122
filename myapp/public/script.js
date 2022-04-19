@@ -55,3 +55,20 @@ socket.on('connected', () => {
   messages.appendChild(Object.assign(element, { textContent: "A new user is connected" }))
   messages.scrollTop = messages.scrollHeight
 })
+
+input.addEventListener("keypress", () => {
+  socket.emit("typing")
+})
+
+socket.on("typing", () => {
+  if (document.querySelector('.typing_text') == null) {
+    var element = document.createElement('li');
+    element.classList.add('typing_text');
+    messages.appendChild(Object.assign(element, { textContent: 'typing' }))
+    messages.scrollTop = messages.scrollHeight;
+}
+  setTimeout(() => {
+    element.remove()
+  }, 1000)
+})
+

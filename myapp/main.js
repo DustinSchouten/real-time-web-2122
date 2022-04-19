@@ -10,10 +10,6 @@ app.use(express.static(path.resolve('public')))
 io.on('connection', (socket) => {
     io.emit('connected')
 
-    socket.on('connect', (element) => {
-        console.log('connected',element)
-    })
-
     socket.on('message', (message) => {
         socket.broadcast.emit('message', message)
     })
@@ -24,6 +20,10 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         io.emit('disconnected')
+    })
+
+    socket.on("typing", () => {
+        socket.broadcast.emit("typing")
     })
 })
 
